@@ -1,5 +1,33 @@
 "use client";
 
+function RectangleBar({ text, bgColor, borderColor }) {
+  return (
+    <div
+      className={`flex-1 h-16 ${bgColor} border-2 ${borderColor} text-black shadow-lg mr-4 flex items-center`}
+    >
+      <p className="header-text ml-4">{text}</p>
+    </div>
+  );
+}
+
+function SquareBar({ text, bgColor, borderColor }) {
+  return (
+    <div
+      className={`w-16 h-16 ${bgColor} border-2 ${borderColor} text-black shadow-lg ml-4 flex items-center justify-center`}
+    >
+      <p className="header-text">{text}</p>
+    </div>
+  );
+}
+
+function DateBubble({ text }) {
+  return (
+    <div className="bg-blue-100 border-2 border-blue-500 text-black px-5 py-2 rounded-full mt-4 shadow-lg">
+      <p className="header-text">{text}</p>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <>
@@ -27,77 +55,93 @@ export default function Home() {
 
       <div className="flex flex-col items-center mt-5">
         {/* Date */}
-        <div className="bg-blue-100 border-2 border-blue-500 text-black px-5 py-2 rounded-full shadow-lg">
-          <p className="header-text">31 March</p>
-        </div>
+        <DateBubble text="31 March" />
 
         {/* Row with square and rectangle */}
         <div className="flex flex-row gap-4 mt-4 w-full">
           {/* Square */}
-          <div className="w-16 h-16 bg-orange-100 border-2 border-orange-300 text-black shadow-lg ml-4 flex items-center justify-center">
-            <p className="header-text">450 cal</p>
-          </div>
+          <SquareBar
+            text="450 cal"
+            bgColor="bg-orange-100"
+            borderColor="border-orange-300"
+          />
 
           {/* Rectangle (same width, different height) */}
-          <div className="flex-1 h-16 bg-green-100 border-2 border-green-300 text-black shadow-lg mr-4 flex items-center">
-            <p className="header-text ml-4">2 Pieces of Pizza</p>
-          </div>
+          <RectangleBar
+            text="2 Pieces of Pizza"
+            bgColor="bg-green-100"
+            borderColor="border-green-300"
+          />
         </div>
 
         {/* Second row with square and rectangle */}
         <div className="flex flex-row gap-4 mt-3 w-full">
           {/* Square */}
-          <div className="w-16 h-16 bg-red-100 border-2 border-red-300 text-black shadow-lg ml-4 flex items-center justify-center">
-            <p className="header-text">650 cal</p>
-          </div>
+          <SquareBar
+            text="650 cal"
+            bgColor="bg-red-100"
+            borderColor="border-red-300"
+          />
 
           {/* Rectangle (same width, different height) */}
-          <div className="flex-1 h-16 bg-green-100 border-2 border-green-300 text-black shadow-lg mr-4 flex items-center">
-            <p className="header-text ml-4">Ice Cream</p>
-          </div>
+          <RectangleBar
+            text="Ice Cream"
+            bgColor="bg-red-100"
+            borderColor="border-red-300"
+          />
         </div>
 
         {/* Third row with square and rectangle */}
         <div className="flex flex-row gap-4 mt-3 w-full">
           {/* Square */}
-          <div className="w-16 h-16 bg-green-100 border-2 border-green-300 text-black shadow-lg ml-4 flex items-center justify-center">
-            <p className="header-text">100 cal</p>
-          </div>
+          <SquareBar
+            text="100 cal"
+            bgColor="bg-green-100"
+            borderColor="border-green-300"
+          />
 
           {/* Rectangle (same width, different height) */}
-          <div className="flex-1 h-16 bg-green-100 border-2 border-green-300 text-black shadow-lg mr-4 flex items-center">
-            <p className="header-text ml-4">Apple</p>
-          </div>
+          <RectangleBar
+            text="Apple"
+            bgColor="bg-green-100"
+            borderColor="border-green-300"
+          />
         </div>
         {/* Date */}
-        <div className="bg-blue-100 border-2 border-blue-500 mt-4 text-black px-5 py-2 rounded-full shadow-lg">
-          <p className="header-text">31 March</p>
-        </div>
+        <DateBubble text="31 March" />
 
         {/* Row with square and rectangle */}
         <div className="flex flex-row gap-4 mt-4 w-full">
           {/* Square */}
-          <div className="w-16 h-16 bg-orange-100 border-2 border-orange-300 text-black shadow-lg ml-4 flex items-center justify-center">
-            <p className="header-text">450 cal</p>
-          </div>
+          <SquareBar
+            text="450 cal"
+            bgColor="bg-orange-100"
+            borderColor="border-orange-300"
+          />
 
           {/* Rectangle (same width, different height) */}
-          <div className="flex-1 h-16 bg-green-100 border-2 border-green-300 text-black shadow-lg mr-4 flex items-center">
-            <p className="header-text ml-4">2 Pieces of Pizza</p>
-          </div>
+          <RectangleBar
+            text="2 Pieces of Pizza"
+            bgColor="bg-green-100"
+            borderColor="border-green-300"
+          />
         </div>
 
         {/* Second row with square and rectangle */}
         <div className="flex flex-row gap-4 mt-3 w-full">
           {/* Square */}
-          <div className="w-16 h-16 bg-red-100 border-2 border-red-300 text-black shadow-lg ml-4 flex items-center justify-center">
-            <p className="header-text">650 cal</p>
-          </div>
+          <SquareBar
+            text="650 cal"
+            bgColor="bg-red-100"
+            borderColor="border-red-300"
+          />
 
           {/* Rectangle (same width, different height) */}
-          <div className="flex-1 h-16 bg-green-100 border-2 border-green-300 text-black shadow-lg mr-4 flex items-center">
-            <p className="header-text ml-4">Ice Cream</p>
-          </div>
+          <RectangleBar
+            text="Ice Cream"
+            bgColor="bg-green-100"
+            borderColor="border-green-300"
+          />
         </div>
       </div>
 
