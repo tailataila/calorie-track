@@ -96,7 +96,7 @@ const foodEntries = [
   },
 ];
 
-const totalCalories = foodEntries.slice(0, 3).reduce((sum, entry) => {
+const totalCalories = foodEntries.slice(3, 5).reduce((sum, entry) => {
   const calories = parseInt(entry.square.text); // "450 cal" → 450
   return sum + (isNaN(calories) ? 0 : calories);
 }, 0);
