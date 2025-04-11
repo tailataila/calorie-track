@@ -28,6 +28,79 @@ function DateBubble({ text }) {
   );
 }
 
+const foodEntries = [
+  {
+    date: "2025-03-31",
+    square: {
+      text: "300 cal",
+      bgColor: "bg-orange-100",
+      borderColor: "border-orange-300",
+    },
+    rectangle: {
+      text: "Piece of Pizza",
+      bgColor: "bg-orange-100",
+      borderColor: "border-orange-300",
+    },
+  },
+  {
+    date: "2025-03-31",
+    square: {
+      text: "650 cal",
+      bgColor: "bg-red-100",
+      borderColor: "border-red-300",
+    },
+    rectangle: {
+      text: "Ice Cream",
+      bgColor: "bg-red-100",
+      borderColor: "border-red-300",
+    },
+  },
+  {
+    date: "2025-03-31",
+    square: {
+      text: "100 cal",
+      bgColor: "bg-green-100",
+      borderColor: "border-green-300",
+    },
+    rectangle: {
+      text: "Apple",
+      bgColor: "bg-green-100",
+      borderColor: "border-green-300",
+    },
+  },
+  {
+    date: "2025-04-01",
+    square: {
+      text: "250 cal",
+      bgColor: "bg-orange-100",
+      borderColor: "border-orange-300",
+    },
+    rectangle: {
+      text: "Donut",
+      bgColor: "bg-orange-100",
+      borderColor: "border-orange-300",
+    },
+  },
+  {
+    date: "2025-04-01",
+    square: {
+      text: "650 cal",
+      bgColor: "bg-red-100",
+      borderColor: "border-red-300",
+    },
+    rectangle: {
+      text: "Raspberry Ice Cream",
+      bgColor: "bg-red-100",
+      borderColor: "border-red-300",
+    },
+  },
+];
+
+const totalCalories = foodEntries.slice(0, 3).reduce((sum, entry) => {
+  const calories = parseInt(entry.square.text); // "450 cal" → 450
+  return sum + (isNaN(calories) ? 0 : calories);
+}, 0);
+
 export default function Home() {
   return (
     <>
@@ -43,7 +116,7 @@ export default function Home() {
           </div>
           {/* Today element */}
           <div className="bg-blue-100 border-2 border-blue-500 text-black px-10 py-5 rounded-full shadow-lg">
-            <p className="header-text">Today - 350 cal</p>
+            <p className="header-text">Today - {totalCalories} cal</p>
           </div>
           {/* Circle-shaped element */}
           <div className="bg-blue-100 border-2 border-blue-500 text-black w-14 h-14 flex justify-center items-center rounded-full shadow-lg">
@@ -57,92 +130,23 @@ export default function Home() {
         {/* Date */}
         <DateBubble text="31 March" />
 
-        {/* Row with square and rectangle */}
-        <div className="flex flex-row gap-4 mt-4 w-full">
-          {/* Square */}
-          <SquareBar
-            text="450 cal"
-            bgColor="bg-orange-100"
-            borderColor="border-orange-300"
-          />
-
-          {/* Rectangle (same width, different height) */}
-          <RectangleBar
-            text="2 Pieces of Pizza"
-            bgColor="bg-green-100"
-            borderColor="border-green-300"
-          />
-        </div>
-
-        {/* Second row with square and rectangle */}
-        <div className="flex flex-row gap-4 mt-3 w-full">
-          {/* Square */}
-          <SquareBar
-            text="650 cal"
-            bgColor="bg-red-100"
-            borderColor="border-red-300"
-          />
-
-          {/* Rectangle (same width, different height) */}
-          <RectangleBar
-            text="Ice Cream"
-            bgColor="bg-red-100"
-            borderColor="border-red-300"
-          />
-        </div>
-
-        {/* Third row with square and rectangle */}
-        <div className="flex flex-row gap-4 mt-3 w-full">
-          {/* Square */}
-          <SquareBar
-            text="100 cal"
-            bgColor="bg-green-100"
-            borderColor="border-green-300"
-          />
-
-          {/* Rectangle (same width, different height) */}
-          <RectangleBar
-            text="Apple"
-            bgColor="bg-green-100"
-            borderColor="border-green-300"
-          />
-        </div>
+        {/* Render all entries */}
+        {foodEntries.slice(0, 3).map((entry, index) => (
+          <div key={index} className="flex flex-row gap-4 mt-4 w-full">
+            <SquareBar {...entry.square} />
+            <RectangleBar {...entry.rectangle} />
+          </div>
+        ))}
         {/* Date */}
-        <DateBubble text="31 March" />
+        <DateBubble text="1 April" />
 
-        {/* Row with square and rectangle */}
-        <div className="flex flex-row gap-4 mt-4 w-full">
-          {/* Square */}
-          <SquareBar
-            text="450 cal"
-            bgColor="bg-orange-100"
-            borderColor="border-orange-300"
-          />
-
-          {/* Rectangle (same width, different height) */}
-          <RectangleBar
-            text="2 Pieces of Pizza"
-            bgColor="bg-green-100"
-            borderColor="border-green-300"
-          />
-        </div>
-
-        {/* Second row with square and rectangle */}
-        <div className="flex flex-row gap-4 mt-3 w-full">
-          {/* Square */}
-          <SquareBar
-            text="650 cal"
-            bgColor="bg-red-100"
-            borderColor="border-red-300"
-          />
-
-          {/* Rectangle (same width, different height) */}
-          <RectangleBar
-            text="Ice Cream"
-            bgColor="bg-green-100"
-            borderColor="border-green-300"
-          />
-        </div>
+        {/* Remaining entries */}
+        {foodEntries.slice(3).map((entry, index) => (
+          <div key={index + 3} className="flex flex-row gap-4 mt-4 w-full">
+            <SquareBar {...entry.square} />
+            <RectangleBar {...entry.rectangle} />
+          </div>
+        ))}
       </div>
 
       {/* Input + Button */}
