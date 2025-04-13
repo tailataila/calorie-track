@@ -1,21 +1,32 @@
 "use client";
 
-function RectangleBar({ text, bgColor, borderColor }) {
+function getColorClasses(calories) {
+  if (calories < 300) return "bg-green-100 border-green-300";
+  if (calories < 500) return "bg-orange-100 border-orange-300";
+  return "bg-red-100 border-red-300";
+}
+
+function SquareBar({ text }) {
+  const calories = parseInt(text.replace(/\D/g, ""));
+  const colorClasses = getColorClasses(calories);
   return (
     <div
-      className={`flex-1 h-16 ${bgColor} border-2 ${borderColor} text-black shadow-lg mr-4 flex items-center`}
+      className={`w-16 h-16 ${colorClasses} border-2 text-black shadow-lg ml-4 flex items-center justify-center`}
     >
-      <p className="header-text ml-4">{text}</p>
+      <p className="header-text">{text}</p>
     </div>
   );
 }
 
-function SquareBar({ text, bgColor, borderColor }) {
+function RectangleBar({ text, squareText }) {
+  // Use the same calorie value as the square
+  const calories = parseInt(squareText.replace(/\D/g, ""));
+  const colorClasses = getColorClasses(calories);
   return (
     <div
-      className={`w-16 h-16 ${bgColor} border-2 ${borderColor} text-black shadow-lg ml-4 flex items-center justify-center`}
+      className={`flex-1 h-16 ${colorClasses} border-2 text-black shadow-lg mr-4 flex items-center`}
     >
-      <p className="header-text">{text}</p>
+      <p className="header-text ml-4">{text}</p>
     </div>
   );
 }
@@ -31,75 +42,30 @@ function DateBubble({ text }) {
 const foodEntries = [
   {
     date: "2025-03-31",
-    square: {
-      text: "300 cal",
-      bgColor: "bg-orange-100",
-      borderColor: "border-orange-300",
-    },
-    rectangle: {
-      text: "Piece of Pizza",
-      bgColor: "bg-orange-100",
-      borderColor: "border-orange-300",
-    },
+    square: { text: "300 cal" },
+    rectangle: { text: "Piece of Pizza" },
   },
   {
     date: "2025-03-31",
-    square: {
-      text: "650 cal",
-      bgColor: "bg-red-100",
-      borderColor: "border-red-300",
-    },
-    rectangle: {
-      text: "Ice Cream",
-      bgColor: "bg-red-100",
-      borderColor: "border-red-300",
-    },
+    square: { text: "650 cal" },
+    rectangle: { text: "Ice Cream" },
   },
   {
     date: "2025-03-31",
-    square: {
-      text: "100 cal",
-      bgColor: "bg-green-100",
-      borderColor: "border-green-300",
-    },
-    rectangle: {
-      text: "Apple",
-      bgColor: "bg-green-100",
-      borderColor: "border-green-300",
-    },
+    square: { text: "100 cal" },
+    rectangle: { text: "Apple" },
   },
   {
     date: "2025-04-01",
-    square: {
-      text: "250 cal",
-      bgColor: "bg-orange-100",
-      borderColor: "border-orange-300",
-    },
-    rectangle: {
-      text: "Donut",
-      bgColor: "bg-orange-100",
-      borderColor: "border-orange-300",
-    },
+    square: { text: "250 cal" },
+    rectangle: { text: "Donut" },
   },
   {
     date: "2025-04-01",
-    square: {
-      text: "650 cal",
-      bgColor: "bg-red-100",
-      borderColor: "border-red-300",
-    },
-    rectangle: {
-      text: "Raspberry Ice Cream",
-      bgColor: "bg-red-100",
-      borderColor: "border-red-300",
-    },
+    square: { text: "650 cal" },
+    rectangle: { text: "Raspberry Ice Cream" },
   },
 ];
-
-const totalCalories = foodEntries.slice(3, 5).reduce((sum, entry) => {
-  const calories = parseInt(entry.square.text); // "450 cal" → 450
-  return sum + (isNaN(calories) ? 0 : calories);
-}, 0);
 
 export default function Home() {
   return (
@@ -117,7 +83,17 @@ export default function Home() {
             </div>
             {/* Today element */}
             <div className="bg-blue-100 border-2 border-blue-500 text-black px-5 py-5 rounded-full shadow-lg">
-              <p className="header-text">Today - {totalCalories} cal</p>
+              <p className="header-text">
+                Today -{" "}
+                {foodEntries
+                  .slice(0, 3)
+                  .reduce(
+                    (sum, entry) =>
+                      sum + parseInt(entry.square.text.replace(/\D/g, "")),
+                    0
+                  )}{" "}
+                cal
+              </p>
             </div>
             {/* Circle-shaped element */}
             <div className="bg-blue-100 border-2 border-blue-500 text-black w-14 h-14 flex justify-center items-center rounded-full shadow-lg">
@@ -131,21 +107,28 @@ export default function Home() {
           {/* Date */}
           <DateBubble text="31 March" />
 
-          {/* Render all entries */}
+          {/* Render first 3 entries */}
           {foodEntries.slice(0, 3).map((entry, index) => (
             <div key={index} className="flex flex-row gap-4 mt-4 w-full">
-              <SquareBar {...entry.square} />
-              <RectangleBar {...entry.rectangle} />
+              <SquareBar text={entry.square.text} />
+              <RectangleBar
+                text={entry.rectangle.text}
+                squareText={entry.square.text}
+              />
             </div>
           ))}
+
           {/* Date */}
           <DateBubble text="1 April" />
 
-          {/* Remaining entries */}
+          {/* Render remaining entries */}
           {foodEntries.slice(3).map((entry, index) => (
             <div key={index + 3} className="flex flex-row gap-4 mt-4 w-full">
-              <SquareBar {...entry.square} />
-              <RectangleBar {...entry.rectangle} />
+              <SquareBar text={entry.square.text} />
+              <RectangleBar
+                text={entry.rectangle.text}
+                squareText={entry.square.text}
+              />
             </div>
           ))}
         </div>
