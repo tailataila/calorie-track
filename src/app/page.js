@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
+
 import { FoodEntryGroup } from "./FoodEntryComponents";
 
 export default function Home() {
-  const foodEntries = [
+  const [foodEntries, setFoodEntries] = useState([
     {
       date: "2025-03-31",
       square: { text: "300 cal" },
@@ -29,7 +31,34 @@ export default function Home() {
       square: { text: "650 cal" },
       rectangle: { text: "Raspberry Ice Cream" },
     },
-  ];
+  ]);
+
+  const [inputText, setInputText] = useState("");
+
+  // Parsing function to convert the input text into the correct format
+  const parseInput = (input) => {
+    const match = input.match(/date:\s*(.+),\s*cal:\s*(\d+),\s*meal:\s*(.+)/i);
+    if (!match) return null;
+
+    return {
+      date: match[1].trim(),
+      square: { text: `${match[2].trim()} cal` },
+      rectangle: { text: match[3].trim() },
+    };
+  };
+
+  // Handle adding the new entry
+  const handleAddEntry = () => {
+    const parsed = parseInput(inputText); // Parse input
+    if (parsed) {
+      setFoodEntries([...foodEntries, parsed]); // Add to the state
+      setInputText(""); // Clear the input field
+    } else {
+      alert("Invalid format! Please use 'date: <>, cal: <>, meal: <>' format.");
+    }
+  };
+
+  // Group entries by date
 
   const groupedEntriesByDate = foodEntries.reduce((acc, entry) => {
     if (!acc[entry.date]) acc[entry.date] = [];
@@ -83,12 +112,19 @@ export default function Home() {
         <div className="flex items-center gap-2 mt-6 px-5 w-full">
           <input
             type="text"
-            placeholder="Add your task"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)} // Update inputText state
+            onKeyDown={(e) => {
+      if (e.key === "Enter") {
+        handleAddEntry();
+      }
+    }}
+            placeholder="date: 2025-04-02, cal: 400, meal: Avocado Toast"
             className="flex-1 bg-white border-2 border-green-500 px-4 py-2 rounded-full outline-none shadow-lg"
           />
           <button
+            onClick={handleAddEntry} // Add entry on click
             className="bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600"
-            onClick={() => console.log("Add button clicked")}
           >
             Add
           </button>
