@@ -1,39 +1,25 @@
 "use client";
 
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { FoodEntryGroup } from "./FoodEntryComponents";
 
 export default function Home() {
-  const [foodEntries, setFoodEntries] = useState([
-    {
-      date: "2025-03-31",
-      square: { text: "300 cal" },
-      rectangle: { text: "Piece of Pizza" },
-    },
-    {
-      date: "2025-03-31",
-      square: { text: "650 cal" },
-      rectangle: { text: "Ice Cream" },
-    },
-    {
-      date: "2025-03-31",
-      square: { text: "100 cal" },
-      rectangle: { text: "Apple" },
-    },
-    {
-      date: "2025-04-01",
-      square: { text: "250 cal" },
-      rectangle: { text: "Donut" },
-    },
-    {
-      date: "2025-04-01",
-      square: { text: "650 cal" },
-      rectangle: { text: "Raspberry Ice Cream" },
-    },
-  ]);
-
+  const [foodEntries, setFoodEntries] = useState([]);
   const [inputText, setInputText] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("/api/userentries");
+        const data = await response.json();
+        setFoodEntries(data);
+      } catch (error) {
+        console.error("Error fetching food entries:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   // Parsing function to convert the input text into the correct format
   const parseInput = (input) => {
@@ -115,10 +101,10 @@ export default function Home() {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)} // Update inputText state
             onKeyDown={(e) => {
-      if (e.key === "Enter") {
-        handleAddEntry();
-      }
-    }}
+              if (e.key === "Enter") {
+                handleAddEntry();
+              }
+            }}
             placeholder="date: 2025-04-02, cal: 400, meal: Avocado Toast"
             className="flex-1 bg-white border-2 border-green-500 px-4 py-2 rounded-full outline-none shadow-lg"
           />

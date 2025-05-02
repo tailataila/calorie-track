@@ -1,6 +1,6 @@
 export async function GET(request) {
   // For example, fetch data from your DB here
-  const data = [
+  const foodEntries = [
     {
       date: "2025-03-31",
       square: { text: "300 cal" },
@@ -27,7 +27,7 @@ export async function GET(request) {
       rectangle: { text: "Raspberry Ice Cream" },
     },
   ];
-  return new Response(JSON.stringify(data), {
+  return new Response(JSON.stringify(foodEntries), {
     status: 200,
     headers: { "Content-Type": "application/json" },
   });
