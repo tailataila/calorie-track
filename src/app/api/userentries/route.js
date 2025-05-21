@@ -1,5 +1,5 @@
 export async function GET(request) {
-  // For example, fetch data from your DB here
+
   const foodEntries = [
     {
       date: "2025-03-31",
@@ -34,15 +34,15 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  //Receives parameter request, which is a Request object. It contains the details of the incoming HTTP request — method, headers, body, etc.
+
   // Parse the request body
-  //   const body = await request.json();
-  //   const { name } = body;
+  const body = await request.json();
 
-  // e.g. Insert new user into your DB
-  const error = { msg: "Not implemented yet" };
+  // In a real app, you would save `body` to a DB here
 
-  return new Response(JSON.stringify(error), {
-    status: 503,
+  return new Response(JSON.stringify(body), {
+    status: 200,
     headers: { "Content-Type": "application/json" },
   });
 }

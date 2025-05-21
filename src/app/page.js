@@ -34,14 +34,34 @@ export default function Home() {
   };
 
   // Handle adding the new entry
-  const handleAddEntry = () => {
+  const handleAddEntry = async () => {
     const parsed = parseInput(inputText); // Parse input
     if (parsed) {
-      setFoodEntries([...foodEntries, parsed]); // Add to the state
-      setInputText(""); // Clear the input field
-    } else {
-      alert("Invalid format! Please use 'date: <>, cal: <>, meal: <>' format.");
+      try {
+        const response = await fetch("/api/userentries", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(parsed),
+        });
+        if (!response.ok) {
+          throw new Error("Failed to add entry");
+        }
+
+        const result = await response.json();
+        console.log("Entry added:", result);
+
+        setFoodEntries([...foodEntries, parsed]); // Add to the state
+        setInputText(""); // Clear the input field
+      } catch (error) {
+        console.error("Error adding entry:", error);
+        alert("Failed to save entry to server.");
+      }
     }
+    else {
+      alert("Invalid format! Please use 'date: <>, cal: <>, meal: <>' format.");
+      }
   };
 
   // Group entries by date
