@@ -2,27 +2,27 @@ export async function GET(request) {
 
   const foodEntries = [
     {
-      date: "2025-03-31",
+      date: "2025-06-10",
       square: { text: "300 cal" },
       rectangle: { text: "Piece of Pizza" },
     },
     {
-      date: "2025-03-31",
+      date: "2025-06-10",
       square: { text: "650 cal" },
       rectangle: { text: "Ice Cream" },
     },
     {
-      date: "2025-03-31",
+      date: "2025-06-10",
       square: { text: "100 cal" },
       rectangle: { text: "Apple" },
     },
     {
-      date: "2025-04-01",
+      date: "2025-06-01",
       square: { text: "250 cal" },
       rectangle: { text: "Donut" },
     },
     {
-      date: "2025-04-01",
+      date: "2025-06-01",
       square: { text: "650 cal" },
       rectangle: { text: "Raspberry Ice Cream" },
     },

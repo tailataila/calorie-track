@@ -6,6 +6,7 @@ import { FoodEntryGroup } from "./FoodEntryComponents";
 export default function Home() {
   const [foodEntries, setFoodEntries] = useState([]);
   const [inputText, setInputText] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -76,32 +77,43 @@ export default function Home() {
     <>
       <div className="w-full max-w-md mx-auto px-4">
         <div className="flex flex-col justify-start items-center mt-10">
-          <div className="flex w-full items-center justify-between px-5">
-            {/* Diamond-shaped element */}
-            <div className="bg-blue-100 border-2 border-blue-500 text-black px-1 py-0 transform rotate-45 shadow-lg">
-              <span className="block transform -rotate-45 header-text text-center">
-                Calen
-                <br />
-                dar
-              </span>
-            </div>
-            {/* Today element */}
-            <div className="bg-blue-100 border-2 border-blue-500 text-black px-5 py-5 rounded-full shadow-lg">
-              <p className="header-text">
-                Today -{" "}
-                {foodEntries
-                  .slice(0, 3)
-                  .reduce(
-                    (sum, entry) =>
-                      sum + parseInt(entry.square.text.replace(/\D/g, "")),
-                    0
-                  )}{" "}
-                cal
+          <div className="flex flex-col items-center space-y-4">
+            {/* First row: Logo + motto */}
+            <div className="flex items-center gap-4">
+              <img
+                src="/calorie-track-logo-dark.png"
+                alt="Logo"
+                className="w-24 h-24 object-contain"
+              />
+              <p className="text-xl font-semibold" style={{ color: "#007dc0" }}>
+                Your way to healthy living
               </p>
             </div>
-            {/* Circle-shaped element */}
-            <div className="bg-blue-100 border-2 border-blue-500 text-black w-14 h-14 flex justify-center items-center rounded-full shadow-lg">
-              <p className="header-text">User</p>
+
+            {/* Second row: Calendar picker + Today element */}
+            <div className="flex items-center gap-6">
+              {/* Calendar input */}
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="bg-white border-2 border-blue-500 px-3 py-2 rounded shadow-lg"
+              />
+
+              {/* Today element */}
+              <div className="bg-blue-100 border-2 border-blue-500 text-black px-5 py-5 rounded-full shadow-lg">
+                <p className="header-text">
+                  Today -{" "}
+                  {foodEntries
+                    .slice(0, 3)
+                    .reduce(
+                      (sum, entry) =>
+                        sum + parseInt(entry.square.text.replace(/\D/g, "")),
+                      0
+                    )}{" "}
+                  cal
+                </p>
+              </div>
             </div>
           </div>
           <div className="w-full h-0.5 bg-black mt-6"></div>
