@@ -22,7 +22,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // Parsing function to convert the input text into the correct format
   const parseInput = (input) => {
     const match = input.match(/date:\s*(.+),\s*cal:\s*(\d+),\s*meal:\s*(.+)/i);
     if (!match) return null;
@@ -34,9 +33,8 @@ export default function Home() {
     };
   };
 
-  // Handle adding the new entry
   const handleAddEntry = async () => {
-    const parsed = parseInput(inputText); // Parse input
+    const parsed = parseInput(inputText);
     if (parsed) {
       try {
         const response = await fetch("/api/userentries", {
@@ -53,19 +51,16 @@ export default function Home() {
         const result = await response.json();
         console.log("Entry added:", result);
 
-        setFoodEntries([...foodEntries, parsed]); // Add to the state
-        setInputText(""); // Clear the input field
+        setFoodEntries([...foodEntries, parsed]);
+        setInputText("");
       } catch (error) {
         console.error("Error adding entry:", error);
         alert("Failed to save entry to server.");
       }
-    }
-    else {
+    } else {
       alert("Invalid format! Please use 'date: <>, cal: <>, meal: <>' format.");
-      }
+    }
   };
-
-  // Group entries by date
 
   const groupedEntriesByDate = foodEntries.reduce((acc, entry) => {
     if (!acc[entry.date]) acc[entry.date] = [];
@@ -73,12 +68,18 @@ export default function Home() {
     return acc;
   }, {});
 
+  const totalCaloriesByDate = (entries) => {
+    return entries.reduce((sum, entry) => {
+      return sum + parseInt(entry.square.text.replace(/\D/g, ""));
+    }, 0);
+  };
+
   return (
     <>
       <div className="w-full max-w-md mx-auto px-4">
         <div className="flex flex-col justify-start items-center mt-10">
           <div className="flex flex-col items-center space-y-4">
-            {/* First row: Logo + motto */}
+            {/* Logo + motto */}
             <div className="flex items-center gap-4">
               <img
                 src="/calorie-track-logo-dark.png"
@@ -90,40 +91,32 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Second row: Calendar picker + Today element */}
+            {/* Calendar picker */}
+            {/**
             <div className="flex items-center gap-6">
-              {/* Calendar input */}
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
                 className="bg-white border-2 border-blue-500 px-3 py-2 rounded shadow-lg"
               />
-
-              {/* Today element */}
-              <div className="bg-blue-100 border-2 border-blue-500 text-black px-5 py-5 rounded-full shadow-lg">
-                <p className="header-text">
-                  Today -{" "}
-                  {foodEntries
-                    .slice(0, 3)
-                    .reduce(
-                      (sum, entry) =>
-                        sum + parseInt(entry.square.text.replace(/\D/g, "")),
-                      0
-                    )}{" "}
-                  cal
-                </p>
-              </div>
             </div>
+             **/}
           </div>
           <div className="w-full h-0.5 bg-black mt-6"></div>
         </div>
 
         <div className="flex flex-col items-center mt-5">
-          {/* Render grouped food entries */}
-          {Object.entries(groupedEntriesByDate).map(([date, entries]) => (
-            <FoodEntryGroup key={date} date={date} entries={entries} />
-          ))}
+          {Object.entries(groupedEntriesByDate).map(([date, entries]) => {
+            const total = totalCaloriesByDate(entries);
+            return (
+              <FoodEntryGroup
+                key={date}
+                date={`${date}${total ? `: ${total} cal total` : ""}`}
+                entries={entries}
+              />
+            );
+          })}
         </div>
 
         {/* Input + Button */}
@@ -131,7 +124,7 @@ export default function Home() {
           <input
             type="text"
             value={inputText}
-            onChange={(e) => setInputText(e.target.value)} // Update inputText state
+            onChange={(e) => setInputText(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleAddEntry();
@@ -141,7 +134,7 @@ export default function Home() {
             className="flex-1 bg-white border-2 border-green-500 px-4 py-2 rounded-full outline-none shadow-lg"
           />
           <button
-            onClick={handleAddEntry} // Add entry on click
+            onClick={handleAddEntry}
             className="bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600"
           >
             Add
